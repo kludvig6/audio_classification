@@ -9,5 +9,5 @@ def main():
     task.create_overlapping_histogram(FeatureTranslationTable.spectral_centroid_mean)
     task.create_overlapping_histogram(FeatureTranslationTable.tempo)
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     main()
