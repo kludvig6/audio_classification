@@ -18,7 +18,7 @@ class AudioTrack:
     
 class AudioTrackTable:
     def __init__(self, _filename):
-        filename = "audio_classification/data/" + _filename
+        filename = "data/" + _filename
         data_file = open(filename, "r")
         next(data_file)
         
