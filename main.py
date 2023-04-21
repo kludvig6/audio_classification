@@ -1,7 +1,8 @@
 from task_two_histogram import TaskTwoHistogram
 from feature_structure import FeatureTranslationTable
+from cluster import Cluster
 
-def main():    
+def main():
     task = TaskTwoHistogram()
     
     task.create_overlapping_histogram(FeatureTranslationTable.spectral_rolloff_mean)

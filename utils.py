@@ -1,25 +1,32 @@
 import numpy as np
+from cluster import Cluster
 
-def mahalanobis(x, mean, cov):
+def mahalanobis(x, cluster: Cluster) -> int:
     """
     Calculates the Mahalanobis distance between two vectors x and y, with covariance matrix cov.
     """
-    x_minus_ref = np.array(x) - np.array(mean)
-    inv_cov = np.linalg.inv(cov)
+    x_minus_ref = np.array(x) - np.array(cluster.mean)
+    inv_cov = np.linalg.inv(cluster.cov)
     return np.dot(np.dot(x_minus_ref.T, inv_cov), x_minus_ref)
 
-def accumulated_mahalonobis(vector_set, mean, cov):
+def mahalanobis_cluster_to_vectors(vector_set, cluster: Cluster) -> int:
     """
     Calculates the sum of the Mahalanobis distances between the vectors and the reference vector.
     """
     distance = 0
     for vector in vector_set:
-        distance += mahalanobis(vector, mean, cov)
+        distance += mahalanobis(vector, cluster)
     return distance
 
-def calculate_reference_vector(vector_set):
+def mahalanobis_clusters_to_vectors(vector_set, clusters: list[Cluster]) -> int:
+    distance = 0
+    for cluster in clusters:
+        distance += mahalanobis_cluster_to_vectors(vector_set, cluster)
+    return distance
+
+def find_cluster(vector_set) -> Cluster:
     """
-    Calculates the reference vector for a cluster of vectors.
+    Calculates the cluster centre for a given vector set.
     """
     vector_set = np.array(vector_set)
     
@@ -30,28 +37,61 @@ def calculate_reference_vector(vector_set):
         cov += np.outer((vector - mean), (vector - mean))
     cov = cov/vector_set.shape[0]
     
-    return mean, cov
+    return Cluster(mean, cov)
 
-
-def find_clusters(vector_set):
-    M = 1
-    mean, cov = calculate_reference_vector(vector_set)
-    accumulated_distance = accumulated_mahalonobis(vector_set, mean, cov)
-    M += 1
-
-def assign_vectors_to_clusters(vector_set, cluster_references):
+def assign_vectors_to_clusters(vector_set, clusters: list[Cluster]):
     """
     Assigns each vector in the vector set to one of the clusters. 
-    Clusters is given by [mean, cov].
+    Clusters is a list of Cluster objects.
     """
     for vector in vector_set:
-        assigned_cluster = cluster_references[0]
-        assigned_mean, assigned_cov = assigned_cluster
-        assigned_distance = mahalanobis(vector, assigned_mean, assigned_cov)
-        for cluster in cluster_references[1:]:
-            mean, cov = cluster
-            distance = mahalanobis(vector, mean, cov)   
-            if mahalanobis(vector, mean, cov) < assigned_distance:
+        distances = [mahalanobis(vector, cluster) for cluster in clusters]
+        assigned_cluster_idx = distances.index(min(distances))
+        
+        assigned_cluster = clusters[assigned_cluster_idx]
+        assigned_cluster.assign_vectors(vector)
                 
-def split_clusters(vector_set, cluster_references):
+def split_clusters(clusters: list[Cluster]) -> list[Cluster]:
+    """
+    Finds the cluster with most assigned vectors, and creates a new cluster based on this cluster.
+    """
+    vector_per_cluster = []
+    for cluster in clusters:
+        vector_per_cluster.append(cluster.get_number_of_assigned_vectors())
+        
+    cluster_to_split_idx = vector_per_cluster.index(min(vector_per_cluster))
+    cluster_to_split = clusters[cluster_to_split_idx]
     
+    new_cluster_mean = cluster_to_split.mean*1.01
+    new_cluster_cov = cluster_to_split.cov
+    new_cluster = Cluster(new_cluster_mean, new_cluster_cov)
+    
+    return cluster + [new_cluster]
+
+def find_clusters(vector_set):
+    """TODO: Implement outer loop for different number of cluster. 
+       TODO: For loop for 5 cluster, or while loop?"""
+    number_of_clusters = 1
+    clusters = [find_cluster(vector_set)]
+    assign_vectors_to_clusters(vector_set, clusters)
+
+    accumulated_distance = mahalanobis_clusters_to_vectors(vector_set, clusters)
+    
+    number_of_clusters += 1
+    clusters = split_clusters(clusters)
+    
+    distance = np.inf
+    while True:
+        assign_vectors_to_clusters(vector_set, clusters)
+        new_distance = mahalanobis_clusters_to_vectors(vector_set, clusters)
+        
+        if new_distance < distance:
+            for idx, cluster in enumerate(clusters):
+                cluster.update_cluster()
+            distance = new_distance
+        else:
+            new_accumulated_distance = distance
+            break
+    
+    if new_accumulated_distance < accumulated_distance:
+        accumulated_distance = new_accumulated_distance
