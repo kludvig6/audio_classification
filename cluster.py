@@ -2,7 +2,6 @@ import numpy as np
 
 class Cluster:
     def __init__(self, _mean, _cov):
-        "TODO: Check size error on mean and cov?"
         self.mean = _mean
         self.cov = _cov
         
@@ -12,7 +11,6 @@ class Cluster:
         """
         Assigns a vector or a set of vectors to this cluster by extending og appending to the class variable assigned_vectors.
         """
-        "TODO: Compare size of vectors and mean?"
         if isinstance(vector_set[0], list):
             self.assigned_vectors.extend(vector_set)
         else:

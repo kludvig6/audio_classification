@@ -9,7 +9,15 @@ from audio_track import AudioTrackTable
 
 from test import test_clustering
 
-def main():    
+def main():
+    
+    a = [ 4, 2, 7, 8, 5, 9]
+    a_min = sorted(a)[:3]
+    
+    minimum = []
+    for min in a_min:
+        minimum.append(a[a.index(min)])
+    print(minimum)
     test_clustering()
     
 if __name__ == "__main__":
