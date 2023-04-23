@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 from clustering import find_five_clusters
 from utils import mahalanobis
 from audio_track import AudioTrackTable
@@ -17,7 +15,7 @@ def knn(x, clusters, k):
         nearest_clusters.append(clusters[distances.index(dist)])
     
     for cluster in nearest_clusters:
-        #count the number of genres
+        #count the number of genres in nearest clusters
         print()
 
 def find_clusters():

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 from audio_track import AudioTrackTable
 from feature_structure import FeatureTranslationTable
-from clustering import find_all_clusters, find_five_clusters
+from clustering import find_five_clusters
 from utils import mahalanobis_all_clusters
 
 def test_clustering():
