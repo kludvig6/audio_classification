@@ -26,8 +26,8 @@ def find_clusters():
     genre_lst = GenreList()
     feature_idxs = [
         FeatureTranslationTable.spectral_rolloff_mean.value,      
-        FeatureTranslationTable.mfcc_1_mean.value
-        ]
+        FeatureTranslationTable.mfcc_1_mean.value,
+    ]
     all_clusters = []
     
     for genre in genre_lst.genres:
