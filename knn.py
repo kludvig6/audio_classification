@@ -6,7 +6,9 @@ from audio_track import AudioTrackTable
 from feature_structure import GenreList, FeatureTranslationTable
 
 def knn(x, clusters, k):
-    
+    """
+    This function classifies a vector x to the correct class using the k-NN method with the given clusters.
+    """
     distances = [mahalanobis(x, cluster) for cluster in clusters]
     k_smallest_distance = kmin(distances, k)
     
@@ -18,10 +20,10 @@ def knn(x, clusters, k):
         #count the number of genres
         print()
 
-"""FeatureTranslationTable.tempo.value,
-FeatureTranslationTable.mfcc_1_mean.value,
-FeatureTranslationTable.spectral_centroid_mean.value,"""
 def find_clusters():
+    """
+    Finds five clusters for each genre.
+    """
     track_table = AudioTrackTable("GenreClassData_30s.txt")
     genre_lst = GenreList()
     feature_idxs = [
@@ -45,5 +47,8 @@ def find_clusters():
     
     
 def kmin(values, k):
+    """
+    Returns the k lowest values from a list of values.
+    """
     return sorted(values)[:k]     
     

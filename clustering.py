@@ -55,8 +55,9 @@ def find_single_cluster(vector_set, genre) -> Cluster:
     return Cluster(mean, cov, genre)
 
 def find_all_clusters(vector_set, genre):
-    "TODO: Task specifically asks for 5 cluster. Implement this."
-    "TODO: Remove while True and change to something more meaningful."
+    """
+    This functions calculates on it's own the optimal number of clusters, and returns these clusters.
+    """
     MIN_REDUCTION = 0.99
     number_of_clusters = 1
     clusters = [find_single_cluster(vector_set, genre)]
@@ -88,6 +89,9 @@ def find_all_clusters(vector_set, genre):
     
     
 def find_five_clusters(vector_set, genre):
+    """
+    This functions returns the optimal five clusters for the given vector set.
+    """
     MIN_REDUCTION = 0.99
     number_of_clusters = 1
     clusters = [find_single_cluster(vector_set, genre)]
