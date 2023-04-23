@@ -59,14 +59,14 @@ def split_clusters(clusters: list[Cluster]) -> list[Cluster]:
     for cluster in clusters:
         vector_per_cluster.append(cluster.get_number_of_assigned_vectors())
         
-    cluster_to_split_idx = vector_per_cluster.index(min(vector_per_cluster))
+    cluster_to_split_idx = vector_per_cluster.index(max(vector_per_cluster))
     cluster_to_split = clusters[cluster_to_split_idx]
     
     new_cluster_mean = cluster_to_split.mean*1.01
     new_cluster_cov = cluster_to_split.cov
     new_cluster = Cluster(new_cluster_mean, new_cluster_cov)
     
-    return cluster + [new_cluster]
+    return clusters + [new_cluster]
 
 def find_clusters(vector_set):
     """TODO: Implement outer loop for different number of cluster. 
