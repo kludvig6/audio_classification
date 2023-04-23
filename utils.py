@@ -1,57 +1,31 @@
 import numpy as np
+from cluster import Cluster
 
-def mahalanobis(x, mean, cov):
+def mahalanobis(x, cluster: Cluster) -> int:
     """
     Calculates the Mahalanobis distance between two vectors x and y, with covariance matrix cov.
     """
-    x_minus_ref = np.array(x) - np.array(mean)
-    inv_cov = np.linalg.inv(cov)
-    return np.dot(np.dot(x_minus_ref.T, inv_cov), x_minus_ref)
+    try:
+        x_minus_ref = np.array(x) - np.array(cluster.mean)
+        inv_cov = np.linalg.inv(cluster.cov)
+        return np.dot(np.dot(x_minus_ref.T, inv_cov), x_minus_ref)
+    except:
+        print("Mahalanobis, cov:", cluster.cov)
 
-def accumulated_mahalonobis(vector_set, mean, cov):
+def mahalanobis_single_cluster(vector_set, cluster: Cluster) -> int:
     """
-    Calculates the sum of the Mahalanobis distances between the vectors and the reference vector.
+    Calculates the sum of the Mahalanobis distances between vectors and a cluster reference.
     """
     distance = 0
     for vector in vector_set:
-        distance += mahalanobis(vector, mean, cov)
+        distance += mahalanobis(vector, cluster)
     return distance
 
-def calculate_reference_vector(vector_set):
+def mahalanobis_all_clusters(vector_set, clusters: list[Cluster]) -> int:
     """
-    Calculates the reference vector for a cluster of vectors.
+    Calculates the sum of the Mahalanobis distances between the clusters and their assigned vectors.
     """
-    vector_set = np.array(vector_set)
-    
-    mean = vector_set.sum(axis=0)/vector_set.shape[0]
-    
-    cov = np.zeros((vector_set.shape[1], vector_set.shape[1]))
-    for vector in vector_set:
-        cov += np.outer((vector - mean), (vector - mean))
-    cov = cov/vector_set.shape[0]
-    
-    return mean, cov
-
-
-def find_clusters(vector_set):
-    M = 1
-    mean, cov = calculate_reference_vector(vector_set)
-    accumulated_distance = accumulated_mahalonobis(vector_set, mean, cov)
-    M += 1
-
-def assign_vectors_to_clusters(vector_set, cluster_references):
-    """
-    Assigns each vector in the vector set to one of the clusters. 
-    Clusters is given by [mean, cov].
-    """
-    for vector in vector_set:
-        assigned_cluster = cluster_references[0]
-        assigned_mean, assigned_cov = assigned_cluster
-        assigned_distance = mahalanobis(vector, assigned_mean, assigned_cov)
-        for cluster in cluster_references[1:]:
-            mean, cov = cluster
-            distance = mahalanobis(vector, mean, cov)   
-            if mahalanobis(vector, mean, cov) < assigned_distance:
-                
-def split_clusters(vector_set, cluster_references):
-    
+    distance = 0
+    for cluster in clusters:
+        distance += mahalanobis_single_cluster(cluster.assigned_vectors, cluster)
+    return distance
