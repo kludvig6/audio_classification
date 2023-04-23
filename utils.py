@@ -5,9 +5,12 @@ def mahalanobis(x, cluster: Cluster) -> int:
     """
     Calculates the Mahalanobis distance between two vectors x and y, with covariance matrix cov.
     """
-    x_minus_ref = np.array(x) - np.array(cluster.mean)
-    inv_cov = np.linalg.inv(cluster.cov)
-    return np.dot(np.dot(x_minus_ref.T, inv_cov), x_minus_ref)
+    try:
+        x_minus_ref = np.array(x) - np.array(cluster.mean)
+        inv_cov = np.linalg.inv(cluster.cov)
+        return np.dot(np.dot(x_minus_ref.T, inv_cov), x_minus_ref)
+    except:
+        print("Mahalanobis, cov:", cluster.cov)
 
 def mahalanobis_single_cluster(vector_set, cluster: Cluster) -> int:
     """

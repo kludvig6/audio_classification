@@ -1,11 +1,12 @@
 import numpy as np
 
 class Cluster:
-    def __init__(self, _mean, _cov):
+    def __init__(self, _mean, _cov, _genre):
         self.mean = _mean
         self.cov = _cov
         
         self.assigned_vectors = []
+        self.genre = _genre
      
     def assign_vectors(self, vector_set):
         """
@@ -27,9 +28,9 @@ class Cluster:
         This is called after new vectors have been assigned. Given the new assigned vectors, it updates the mean and covariance of the cluster.
         """
         vector_set = np.array(self.assigned_vectors)
-    
+
         self.mean = vector_set.sum(axis=0)/vector_set.shape[0]
-    
+        
         cov = np.zeros((vector_set.shape[1], vector_set.shape[1]))
         for vector in vector_set:
             cov += np.outer((vector - self.mean), (vector - self.mean))

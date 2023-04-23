@@ -6,19 +6,12 @@ from task_two_histogram import TaskTwoHistogram
 from feature_structure import FeatureTranslationTable
 from cluster import Cluster
 from audio_track import AudioTrackTable
-
+from knn import find_clusters
 from test import test_clustering
 
 def main():
-    
-    a = [ 4, 2, 7, 8, 5, 9]
-    a_min = sorted(a)[:3]
-    
-    minimum = []
-    for min in a_min:
-        minimum.append(a[a.index(min)])
-    print(minimum)
-    test_clustering()
+    find_clusters()
+    #test_clustering()
     
 if __name__ == "__main__":
     main()
