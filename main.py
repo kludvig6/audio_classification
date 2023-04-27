@@ -2,6 +2,8 @@ from task_two_histogram import TaskTwoHistogram
 from feature_structure import FeatureTranslationTable
 from knn import find_clusters
 from test import test_clustering
+from error_rate import error_rate
+
 
 def main():
     for i in range(20):
