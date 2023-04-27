@@ -43,3 +43,6 @@ class AudioTrackTable:
         Returns all the AudioTrack objects of a specific genre from the table.
         """
         return [track for track in self.track_table if track.genre == genre]
+    
+    def get_test_set(self):
+        return [track for track in self.track_table if track.type == "Test"]
