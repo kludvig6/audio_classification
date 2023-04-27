@@ -25,8 +25,10 @@ def find_clusters():
     track_table = AudioTrackTable("GenreClassData_30s.txt")
     genre_lst = GenreList()
     feature_idxs = [
-        FeatureTranslationTable.spectral_rolloff_mean.value,      
+        FeatureTranslationTable.spectral_rolloff_mean.value,
         FeatureTranslationTable.mfcc_1_mean.value,
+        FeatureTranslationTable.spectral_centroid_mean.value,
+        FeatureTranslationTable.tempo.value
     ]
     all_clusters = []
     
