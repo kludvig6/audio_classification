@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 from cluster import Cluster
 from utils import mahalanobis, mahalanobis_all_clusters
@@ -11,50 +12,92 @@ def assign_vectors_to_clusters(vector_set, clusters: list[Cluster]):
         cluster.assigned_vectors = []
         
     for vector in vector_set:
-        distances = [mahalanobis(vector, cluster) for cluster in clusters]
+        vector_copy = copy.copy(vector)
+        
+        distances = [mahalanobis(vector_copy, cluster) for cluster in clusters]
         assigned_cluster_idx = distances.index(min(distances))
         
         assigned_cluster = clusters[assigned_cluster_idx]
-        assigned_cluster.assign_vectors(vector)
+        assigned_cluster.assign_vectors(vector_copy)
             
                 
 def create_new_cluster(clusters: list[Cluster]) -> list[Cluster]:
     """
     Finds the cluster with most assigned vectors, and creates a new cluster just next to it. Return the list of clusters with the new cluster included.
-    """
-    vector_per_cluster = []
-    for cluster in clusters:
-        vector_per_cluster.append(cluster.get_number_of_assigned_vectors())
-        
+    """    
+    vector_per_cluster = [
+        cluster.get_number_of_assigned_vectors() for cluster in clusters
+    ]
+    
     cluster_to_split_idx = vector_per_cluster.index(max(vector_per_cluster))
     cluster_to_split = clusters[cluster_to_split_idx]
-    
-    random_seed = np.random.randint(-10, 10, len(cluster_to_split.mean))
-    random_mean_multiplier = (random_seed/100) + 1
 
-    new_cluster_mean = cluster_to_split.mean*random_mean_multiplier
-    new_cluster_cov = cluster_to_split.cov
-    new_cluster_genre = cluster_to_split.genre
+    new_cluster_mean = copy.copy(cluster_to_split.mean)
+    new_cluster_cov = copy.copy(cluster_to_split.cov)
+    new_cluster_genre = copy.copy(cluster_to_split.genre)
+    
     new_cluster = Cluster(new_cluster_mean, new_cluster_cov, new_cluster_genre)
+    new_cluster.randomly_move_centre()
     
     return clusters + [new_cluster]
 
-def find_single_cluster(vector_set, genre) -> Cluster:
+def cluster_from_vectors(vector_set, genre) -> Cluster:
     """
     Calculates the cluster centre for a given vector set.
     """
-    vector_set = np.array(vector_set)
+    vector_array = np.array(vector_set, copy=True)
     
-    mean = vector_set.sum(axis=0)/vector_set.shape[0]
+    mean = vector_array.sum(axis=0)/vector_array.shape[0]
     
-    cov = np.zeros((vector_set.shape[1], vector_set.shape[1]))
-    for vector in vector_set:
+    cov = np.zeros((vector_array.shape[1], vector_array.shape[1]))
+    for vector in vector_array:
         cov += np.outer((vector - mean), (vector - mean))
-    cov = cov/vector_set.shape[0]
+    cov = cov/vector_array.shape[0]
     
     return Cluster(mean, cov, genre)
 
-def find_all_clusters(vector_set, genre):
+def some_cluster_empty(clusters: list[Cluster]):
+    for cluster in clusters:
+        if cluster.is_empty():
+            return True
+    return False
+    
+def find_five_clusters(vector_set, genre):
+    """
+    This functions returns the optimal five clusters for the given vector set.
+    """
+    MIN_REDUCTION = 0.99
+
+    clusters = [cluster_from_vectors(vector_set, genre)]
+    assign_vectors_to_clusters(vector_set, clusters)
+
+    for i in range(5):
+        clusters = create_new_cluster(clusters)
+        distance_m_clusters = np.inf
+        while True:
+            assign_vectors_to_clusters(vector_set, clusters)
+            while some_cluster_empty(clusters):
+                for cluster in clusters:
+                    print(cluster.get_number_of_assigned_vectors())   
+                    if cluster.is_empty():
+                        cluster.randomly_move_centre()
+                print()
+                assign_vectors_to_clusters(vector_set, clusters)
+                
+            new_distance_m_clusters = mahalanobis_all_clusters(vector_set, clusters)
+
+            if new_distance_m_clusters < MIN_REDUCTION*distance_m_clusters:
+                for cluster in clusters:
+                    cluster.update_cluster()
+                distance_m_clusters = new_distance_m_clusters
+            else:
+                break
+            
+    return clusters
+
+
+
+'''def find_all_clusters(vector_set, genre):
     """
     This functions calculates on it's own the optimal number of clusters, and returns these clusters.
     """
@@ -72,10 +115,19 @@ def find_all_clusters(vector_set, genre):
         distance_m_clusters = np.inf
         while True:
             assign_vectors_to_clusters(vector_set, clusters)
+            
+            while empty_cluster(clusters):
+                print("empty cluster")
+                for cluster in clusters:
+                    if cluster.get_number_of_assigned_vectors() == 0:
+                        cluster.randomly_move_centre()
+                assign_vectors_to_clusters(vector_set, clusters)
+                
             new_distance_m_clusters = mahalanobis_all_clusters(vector_set, clusters)
 
             if new_distance_m_clusters < MIN_REDUCTION*distance_m_clusters:
                 for idx, cluster in enumerate(clusters):
+                    print(cluster.assigned_vectors)
                     cluster.update_cluster()
                 distance_m_clusters = new_distance_m_clusters
             else:
@@ -85,32 +137,4 @@ def find_all_clusters(vector_set, genre):
         if new_lowest_distance < MIN_REDUCTION*currently_lowest_distance:
             currently_lowest_distance = new_lowest_distance
         else:
-            return clusters
-    
-    
-def find_five_clusters(vector_set, genre):
-    """
-    This functions returns the optimal five clusters for the given vector set.
-    """
-    MIN_REDUCTION = 0.99
-    number_of_clusters = 1
-    clusters = [find_single_cluster(vector_set, genre)]
-    assign_vectors_to_clusters(vector_set, clusters)
-
-    while number_of_clusters < 5:
-        number_of_clusters += 1
-        clusters = create_new_cluster(clusters)
-
-        distance_m_clusters = np.inf
-        while True:
-            assign_vectors_to_clusters(vector_set, clusters)
-            new_distance_m_clusters = mahalanobis_all_clusters(vector_set, clusters)
-
-            if new_distance_m_clusters < MIN_REDUCTION*distance_m_clusters:
-                for idx, cluster in enumerate(clusters):
-                    cluster.update_cluster()
-                distance_m_clusters = new_distance_m_clusters
-            else:
-                break
-            
-    return clusters
+            return clusters'''

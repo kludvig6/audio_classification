@@ -4,7 +4,10 @@ from knn import find_clusters
 from test import test_clustering
 
 def main():
-    find_clusters()
+    for i in range(20):
+        print(i)
+        find_clusters()
+        print()
     #test_clustering()
     
 if __name__ == "__main__":
