@@ -14,40 +14,41 @@ def main():
         FeatureTranslationTable.tempo.value
     ]
     clusters = choose_reference_from_data(track_table, genre_lst, feature_idxs)
-    
-    correct = 0
-    wrong = 0
     test_tracks = track_table.get_test_set()
     
+    classification_results = []
     for track in test_tracks:
         features = track.extract_features(feature_idxs)
         classified_genre = knn(features, clusters, 5)
-        if classified_genre == track.genre:
-            correct += 1
+        classified_genre_id = genre_lst.genres.index(classified_genre)
+        true_genre_id = track.genre_id
+        classification_results.append([true_genre_id, classified_genre_id])
+        
+    wrong = 0
+    right = 0
+    for true_label_pair in classification_results:
+        if true_label_pair[0] == true_label_pair[1]:
+            right += 1
         else:
             wrong += 1
-    error_rate = wrong/(correct + wrong)
-    error_rate_percentage = error_rate*100
-    print(error_rate_percentage)
-    
-    print("Correct", correct)
+    print("Right:", right)
     print("Wrong:", wrong)
+    print("Error rate:", wrong/(right+wrong))
     
     '''for i in range(20):
         print(i)
         print()
         find_clusters()
         print()'''
-    #test_clustering()
     
 if __name__ == "__main__":
     main()
     
     
 """
-Implement k Nearest Neighbour. This should input a vector and a set of clusters, then find the k nearest clusters from the vector, and use this to classify the vector into the correct genre.
-
 Generate confusion matrix and error rate for the test set.
 
 Fix the error with covariance and empty sets.
+
+Write a neural network for task 4.
 """ 
