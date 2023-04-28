@@ -50,3 +50,4 @@ def confusion_matrix(true_lable_list):
     while j < len(true_values):
         confusion_zero[true_values[j]][predicted_values[j]] += 1
     
+    return confusion_zero
