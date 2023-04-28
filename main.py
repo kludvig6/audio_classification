@@ -5,6 +5,7 @@ from test import test_clustering
 from error_rate import error_rate
 from error_rate import confusion_matrix
 from error_rate import error_rate_percentage
+from error_rate import plot_confusion_matrix
 
 
 
@@ -43,8 +44,11 @@ def main():
     
     print()
     
-    print("error rate:", error_rate_percentage(classification_results))
-    print("confusion matrix:", confusion_matrix(classification_results))
+    #print("error rate:", error_rate_percentage(classification_results))
+    #print("confusion matrix:")
+    #print(confusion_matrix(classification_results))
+    #print(classification_results)
+    plot_confusion_matrix(confusion_matrix(classification_results))
     
 
 
