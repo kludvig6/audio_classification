@@ -3,6 +3,8 @@ from feature_structure import FeatureTranslationTable, GenreList
 from knn import find_clusters, choose_reference_from_data, knn
 from test import test_clustering
 from error_rate import error_rate
+from error_rate import confusion_matrix
+
 
 
 from audio_track import AudioTrackTable
@@ -31,10 +33,13 @@ def main():
             wrong += 1
     error_rate = wrong/(correct + wrong)
     error_rate_percentage = error_rate*100
-    print(error_rate_percentage)
+    print("Error rate:", error_rate_percentage)
     
     print("Correct", correct)
     print("Wrong:", wrong)
+    
+
+
     
     '''for i in range(20):
         print(i)
