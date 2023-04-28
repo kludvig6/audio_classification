@@ -52,7 +52,7 @@ def main():
     print("Wrong:", wrong)
     print("Error rate:", wrong/(right+wrong))"""
     
-    '''for i in range(20):
+'''for i in range(20):
         print(i)
         print()
         find_clusters()
