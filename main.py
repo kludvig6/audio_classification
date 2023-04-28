@@ -3,8 +3,25 @@ from feature_structure import FeatureTranslationTable, GenreList
 from knn import find_clusters, choose_reference_from_data, knn
 from test import test_clustering
 from audio_track import AudioTrackTable
-        
+
+import torch
+from neural_network import NeuralNetwork
+
 def main():
+    device = (
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps"
+    if torch.backends.mps.is_available()
+    else "cpu"
+    )
+    print(f"Using {device} device")
+
+    model = NeuralNetwork().to(device)
+    print(model)
+    
+    
+"""def main():
     track_table = AudioTrackTable("GenreClassData_30s.txt")
     genre_lst = GenreList()
     feature_idxs = [
@@ -33,7 +50,7 @@ def main():
             wrong += 1
     print("Right:", right)
     print("Wrong:", wrong)
-    print("Error rate:", wrong/(right+wrong))
+    print("Error rate:", wrong/(right+wrong))"""
     
     '''for i in range(20):
         print(i)
