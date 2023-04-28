@@ -10,6 +10,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignore the virtual environment and other things
+estimering/
+deprecated_code/
+documentation/
+figures/
+
 # C extensions
 *.so
 

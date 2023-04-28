@@ -44,5 +44,11 @@ class AudioTrackTable:
         """
         return [track for track in self.track_table if track.genre == genre]
     
+    def get_specific_genre_test_vectors(self, genre):
+        """
+        Returns all the AudioTrack objects of test and specific genre from the table
+        """
+        return [track for track in self.track_table if track.genre == genre and track.type == "Test"]
+    
     def get_test_set(self):
         return [track for track in self.track_table if track.type == "Test"]

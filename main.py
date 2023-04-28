@@ -2,6 +2,13 @@ from task_two_histogram import TaskTwoHistogram
 from feature_structure import FeatureTranslationTable, GenreList
 from knn import find_clusters, choose_reference_from_data, knn
 from test import test_clustering
+from error_rate import error_rate
+from error_rate import confusion_matrix
+from error_rate import error_rate_percentage
+from error_rate import plot_confusion_matrix
+
+
+
 from audio_track import AudioTrackTable
 
 import torch
@@ -95,6 +102,17 @@ def main():
     print("Right:", right)
     print("Wrong:", wrong)
     print("Error rate:", wrong/(right+wrong))"""
+    
+    #print()
+    
+    #print("error rate:", error_rate_percentage(classification_results))
+    #print("confusion matrix:")
+    #print(confusion_matrix(classification_results))
+    #print(classification_results)
+    #plot_confusion_matrix(confusion_matrix(classification_results))
+    
+
+
     
 '''for i in range(20):
         print(i)
