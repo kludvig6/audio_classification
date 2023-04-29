@@ -19,21 +19,8 @@ def error_rate(true_lable_list):
     
     return wrong / (true + wrong)
 
-def error_rate_percentage(true_lable_list):
-    matrix = np.array(true_lable_list)
-    true = 0
-    wrong = 0
-    
-    i = 0
-    while i < len(matrix):
-        if matrix[i, 0] == matrix[i, 1]:
-            true += 1
-            i += 1
-        else:
-            wrong += 1
-            i += 1
-    
-    return (wrong / (true + wrong)) * 100
+def error_rate_percentage(true_lable_list):    
+    return error_rate(true_lable_list) * 100
     
     
 def confusion_matrix(true_lable_list):

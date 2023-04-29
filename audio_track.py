@@ -52,3 +52,6 @@ class AudioTrackTable:
     
     def get_test_set(self):
         return [track for track in self.track_table if track.type == "Test"]
+    
+    def get_train_set(self):
+        return [track for track in self.track_table if track.type == "Train"]

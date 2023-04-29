@@ -1,7 +1,14 @@
 from __future__ import annotations
 import numpy as np
-from cluster import Cluster
-    
+from deprecated_code.cluster import Cluster
+
+def euclidian(x, y):
+    """
+    Calculates the euclidian distance between two vectors
+    """
+    x_minus_y = np.array(x) - np.array(y)
+    return np.dot(x_minus_y.T, x_minus_y)
+
 def mahalanobis(x, cluster: Cluster) -> int:
     """
     Calculates the Mahalanobis distance between two vectors x and y, with covariance matrix cov.
