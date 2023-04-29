@@ -28,38 +28,31 @@ def confusion_matrix(true_lable_list):
     input_matrix = np.array(true_lable_list)
     confusion_zero = np.zeros((10, 10))
     true_values = []
-    predicted_values = []
-    
+    predicted_values = [] 
     
     i = 0
     for i in range(len(input_matrix)):
         true_values.append(input_matrix[i][0])
         predicted_values.append(input_matrix[i][1])
-    
-        
+           
     j = 0
     while j < len(true_values):
         confusion_zero[true_values[j]][predicted_values[j]] += 1
         j += 1
-    
+           
     return confusion_zero
 
-
 # Calculate error rates for each features
-def specific_error_rates(confusion_matrix):
-    
+def specific_error_rates(confusion_matrix):   
     successfull_prediction = []
     for i in range(len(confusion_matrix)):
         successfull_prediction.append(confusion_matrix[i][i])
-        
     
     error_rate = []
     for i in range(len(successfull_prediction)):
         error_rate.append(1 - (successfull_prediction/sum(confusion_matrix[i])))
         
     return error_rate
-
-
 
 # plot confusion matrix
 def plot_confusion_matrix(confusion_matrix):

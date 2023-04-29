@@ -1,8 +1,6 @@
 # Ignore the virtual environment and other things
 estimering/
-deprecated_code/
 documentation/
-figures/
 
 
 # Byte-compiled / optimized / DLL files

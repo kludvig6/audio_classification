@@ -1,7 +1,7 @@
 from task_two_histogram import TaskTwoHistogram
 from feature_structure import FeatureTranslationTable, GenreList
 from knn import knn
-from error_rate import error_rate, confusion_matrix, error_rate_percentage, plot_confusion_matrix
+from error_rate import error_rate, confusion_matrix, error_rate_percentage, plot_confusion_matrix, specific_error_rates
 from audio_track import AudioTrackTable
 
 import numpy as np
@@ -93,9 +93,12 @@ def main():
     
     err_rate = error_rate(classification_results)
     conf_matrix = confusion_matrix(classification_results)
+    err_rate_per_genre = specific_error_rates(conf_matrix)
     
     print("Error rate:", err_rate)
+    print("Error rate per genre: ", err_rate_per_genre)
     print("Confusion matrix:\n", conf_matrix)
+    
     #plot_confusion_matrix(conf_matrix)
     
 if __name__ == "__main__":
