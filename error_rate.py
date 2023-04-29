@@ -3,6 +3,7 @@ from audio_track import AudioTrackTable
 import numpy as np
 import matplotlib.pyplot as plt
 
+#Calculate error rate
 def error_rate(true_lable_list):
     matrix = np.array(true_lable_list)
     true = 0
@@ -19,6 +20,7 @@ def error_rate(true_lable_list):
     
     return wrong / (true + wrong)
 
+#Calculate error rate in percentage
 def error_rate_percentage(true_lable_list):
     matrix = np.array(true_lable_list)
     true = 0
@@ -35,7 +37,7 @@ def error_rate_percentage(true_lable_list):
     
     return (wrong / (true + wrong)) * 100
     
-    
+#Calculate the confusion matrix
 def confusion_matrix(true_lable_list):
     input_matrix = np.array(true_lable_list)
     confusion_zero = np.zeros((10, 10))
@@ -47,7 +49,7 @@ def confusion_matrix(true_lable_list):
     for i in range(len(input_matrix)):
         true_values.append(input_matrix[i][0])
         predicted_values.append(input_matrix[i][1])
-        
+    
         
     j = 0
     while j < len(true_values):
@@ -56,8 +58,25 @@ def confusion_matrix(true_lable_list):
     
     return confusion_zero
 
+
+# Calculate error rates for each features
+def specific_error_rates(confusion_matrix):
+    
+    successfull_prediction = []
+    for i in range(len(confusion_matrix)):
+        successfull_prediction.append(confusion_matrix[i][i])
+        
+    
+    error_rate = []
+    for i in range(len(successfull_prediction)):
+        error_rate.append(1 - (successfull_prediction/sum(confusion_matrix[i])))
+        
+    return error_rate
+
+
+
+# plot confusion matrix
 def plot_confusion_matrix(confusion_matrix):
-    # plot confusion matrix
     fig, ax = plt.subplots()
     im = ax.imshow(confusion_matrix)
 
