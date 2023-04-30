@@ -26,6 +26,7 @@ TASK_2_FEATURES = [
     FeatureTranslationTable.spectral_rolloff_mean.value,
     FeatureTranslationTable.mfcc_1_mean.value,
     FeatureTranslationTable.spectral_centroid_mean.value,
+    #FeatureTranslationTable.tempo.value
 ]
 
 TASK_2_FEATURES_TESTS = [
@@ -36,10 +37,10 @@ TASK_2_FEATURES_TESTS = [
 ]
 
 TASK_3_FEATURES = [
-    FeatureTranslationTable.spectral_rolloff_mean,
-    FeatureTranslationTable.mfcc_1_mean,
-    FeatureTranslationTable.spectral_centroid_mean,
-    FeatureTranslationTable.spectral_rolloff_var
+    FeatureTranslationTable.spectral_rolloff_mean.value,
+    FeatureTranslationTable.mfcc_1_mean.value,
+    FeatureTranslationTable.spectral_centroid_mean.value,
+    FeatureTranslationTable.spectral_rolloff_var.value
 ]
 
 TASK_4_FEATURES = range(NUM_FEATURES)
@@ -73,8 +74,8 @@ def neural_network_main():
     
     y_test = [song.genre_id for song in test_set]
         
-    x_train_loader = DataLoader(X_train, batch_size=len(X_train), drop_last=True)
-    y_train_loader = DataLoader(y_train, batch_size=len(X_train), drop_last=True)
+    x_train_loader = DataLoader(X_train, batch_size=32, drop_last=True)
+    y_train_loader = DataLoader(y_train, batch_size=32, drop_last=True)
 
     x_test_loader = DataLoader(X_test, batch_size=1, drop_last=True)
     y_test_loader = DataLoader(y_test, batch_size=1, drop_last=True)
@@ -93,6 +94,7 @@ def neural_network_main():
     
     print("Error rate:", err_rate)
     print("Confusion matrix:\n", conf_matrix)
+    plot_confusion_matrix(conf_matrix)
 
 def main_find_lowest_error_rate():
     audio_track_table = AudioTrackTable("GenreClassData_30s.txt")
@@ -169,9 +171,5 @@ def main():
     
 if __name__ == "__main__":
     #main_find_lowest_error_rate()
-    #neural_network_main()
+    neural_network_main()
     #main()
-    task = TaskThreeHistogram()
-    feature_idxs = TASK_3_FEATURES
-    for feature in feature_idxs:
-        task.create_overlapping_histogram(feature)

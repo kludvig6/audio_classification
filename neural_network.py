@@ -48,7 +48,7 @@ class NeuralNetwork(nn.Module):
         return pred_probab
 
 def train(model, x_train_loader, y_train_loader, optimizer, device, loss_fn = nn.CrossEntropyLoss()):
-    NUMBER_OF_EPOCHS = 1000
+    NUMBER_OF_EPOCHS = 792
     accumulated_loss = 0
     accumulated_accuracy = 0
     for _ in range(NUMBER_OF_EPOCHS):

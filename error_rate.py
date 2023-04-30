@@ -61,8 +61,8 @@ def plot_confusion_matrix(confusion_matrix):
     # set axis labels
     ax.set_xticks(np.arange(len(confusion_matrix)))
     ax.set_yticks(np.arange(len(confusion_matrix)))
-    ax.set_xticklabels(np.arange(10))
-    ax.set_yticklabels(np.arange(10))
+    ax.set_xticklabels(np.arange(10) + 1)
+    ax.set_yticklabels(np.arange(10) + 1)
     
     # loop over data and add text annotations
     for i in range(len(confusion_matrix)):
