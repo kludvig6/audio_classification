@@ -10,7 +10,7 @@ class AudioTrack:
         self.track_id = int(audio_track_metadata[0])
         self.file = audio_track_metadata[1]
         self.features = np.array([float(x) for x in audio_track_metadata[2:65]])
-        self.genre_id = int(audio_track_metadata[65])
+        self.genre_id = float(audio_track_metadata[65])
         self.genre = audio_track_metadata[66]
         self.type = audio_track_metadata[67]
 
