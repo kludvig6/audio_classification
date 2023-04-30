@@ -120,7 +120,7 @@ def main():
     #print("Error rate per genre: ", err_rate_per_genre)
     print("Confusion matrix:\n", conf_matrix)
     
-    #plot_confusion_matrix(conf_matrix)
+    plot_confusion_matrix(conf_matrix)
     
 if __name__ == "__main__":
     main()

@@ -49,7 +49,7 @@ def specific_error_rates(confusion_matrix):
     
     error_rate = []
     for i in range(len(successfull_prediction)):
-        error_rate.append(1 - (successfull_prediction/sum(confusion_matrix[i])))
+        error_rate.append(1 - (successfull_prediction[i]/sum(confusion_matrix[i])))
         
     return error_rate
 
