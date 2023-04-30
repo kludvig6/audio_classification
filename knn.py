@@ -40,7 +40,6 @@ def knn(song, training_set, feature_idxs, k):
             if song.genre in max_genres:
                 classified_genre = song.genre
                 break
-    
     return classified_genre
     
 def kmin(values, k):

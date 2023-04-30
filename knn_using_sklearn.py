@@ -9,7 +9,7 @@ def knn_sklearn_classifier():
     feature_idxs = [
         FeatureTranslationTable.spectral_rolloff_mean.value,
         FeatureTranslationTable.mfcc_1_mean.value,
-        #FeatureTranslationTable.spectral_centroid_mean.value,
+        FeatureTranslationTable.spectral_centroid_mean.value,
         FeatureTranslationTable.tempo.value
     ]
     
