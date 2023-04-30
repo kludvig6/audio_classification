@@ -19,7 +19,7 @@ from neural_network import NeuralNetwork, train, test, one_hot_encoder
 
 BATCH_SIZE = 100
 NUMBER_OF_NEIGHBOURS = 5
-TASK_NUMBER = 1
+TASK_NUMBER = 3
 
 TASK_1_FEATURES = [
     FeatureTranslationTable.spectral_rolloff_mean.value,
@@ -32,12 +32,14 @@ TASK_2_FEATURES = [
     FeatureTranslationTable.spectral_rolloff_mean.value,
     FeatureTranslationTable.mfcc_1_mean.value,
     FeatureTranslationTable.spectral_centroid_mean.value,
+    #FeatureTranslationTable.tempo.value
 ]
 
 TASK_3_FEATURES = [
     FeatureTranslationTable.spectral_rolloff_mean.value,
     FeatureTranslationTable.mfcc_1_mean.value,
     FeatureTranslationTable.spectral_centroid_mean.value,
+    FeatureTranslationTable.spectral_rolloff_var.value
 ]
 
 def neural_network_main():
@@ -124,7 +126,7 @@ def main():
     
 if __name__ == "__main__":
     main()
-    neural_network_main()
+    #neural_network_main()
     
     
 """
