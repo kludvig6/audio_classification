@@ -61,7 +61,7 @@ def train(model, x_train_loader, y_train_loader, optimizer, device, loss_fn = nn
             loss = loss_fn(pred_probab, y_train)
             accumulated_loss += loss.item()
             accumulated_accuracy += (1-torch.abs(pred_probab - y_train).mean().item())
-            loss.backward() 
+            loss.backward()
             optimizer.step()
             
     print(f"Average loss:", 100*accumulated_loss/(NUMBER_OF_EPOCHS*x_train.shape[1]))

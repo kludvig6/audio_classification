@@ -1,4 +1,4 @@
-from task_two_histogram import TaskTwoHistogram
+from task_two_histogram import TaskTwoHistogram, TaskThreeHistogram
 from feature_structure import FeatureTranslationTable, GenreList
 from knn import knn
 from error_rate import error_rate, confusion_matrix, error_rate_percentage, plot_confusion_matrix, specific_error_rates
@@ -36,9 +36,10 @@ TASK_2_FEATURES_TESTS = [
 ]
 
 TASK_3_FEATURES = [
-    FeatureTranslationTable.spectral_rolloff_mean.value,
-    FeatureTranslationTable.mfcc_1_mean.value,
-    FeatureTranslationTable.spectral_centroid_mean.value,
+    FeatureTranslationTable.spectral_rolloff_mean,
+    FeatureTranslationTable.mfcc_1_mean,
+    FeatureTranslationTable.spectral_centroid_mean,
+    FeatureTranslationTable.spectral_rolloff_var
 ]
 
 TASK_4_FEATURES = range(NUM_FEATURES)
@@ -169,4 +170,8 @@ def main():
 if __name__ == "__main__":
     #main_find_lowest_error_rate()
     #neural_network_main()
-    main()
+    #main()
+    task = TaskThreeHistogram()
+    feature_idxs = TASK_3_FEATURES
+    for feature in feature_idxs:
+        task.create_overlapping_histogram(feature)
