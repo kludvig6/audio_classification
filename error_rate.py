@@ -1,5 +1,4 @@
 from __future__ import annotations
-from audio_track import AudioTrackTable
 import numpy as np
 import matplotlib.pyplot as plt
 
